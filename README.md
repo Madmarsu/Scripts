@@ -5,9 +5,8 @@ Ceci est un repo regroupant une partie de mes scripts destinés à bien des usag
 ## Utilisation
 
 Pour les utiliser, suffit de cloner le repo ou de télécharger sous forme de zip. 
-'''
-git clone https://github.com/TheOletros/Scripts
-'''
+~> git clone https://github.com/TheOletros/Scripts
+
 
 ### Prérequis
 
