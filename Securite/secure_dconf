@@ -1,0 +1,138 @@
+#!/bin/bash
+
+dep=`dpkg -s pwgen | grep dpkg-query`
+if [ "$dep" != "" ]; then
+	apt-get -y install pwgen
+fi
+
+if [ "$dep" != "" ]; then
+	zenity --error --width 250 --height 75 --title "Secure Dconf" --text "Merci d'installer manuellement pwgen !"
+	exit 1
+fi
+
+widthscreen=`xrandr --verbose | grep *current | awk  '{ print $1 }' | cut -d"x" -f1`
+heightscreen=`xrandr --verbose | grep *current | awk  '{ print $1 }' | cut -d"x" -f1`
+zenitywidth=`echo "scale=0; $widthscreen / 3" | bc`
+zenityheight=`echo "scale=0; $heightscreen / 3" | bc`
+
+passremote=`pwgen -s 32 1`
+
+checkbox=$(zenity --list --width $zenitywidth --height $heightscreen --title "Secure Dconf" --text "Que voulez vous faire ?" --checklist --column "Choix" --column "Options" TRUE "Désactiver Automontage" TRUE "Sécuriser Accès Remote" TRUE "Diminuer Leak" TRUE "Sécuriser Ecran de Vérouillage" TRUE "Sécuriser Archiveur" TRUE "Améliorer Gedit" TRUE "Améliorer Gnome-ScreenShot" TRUE "Sécuriser Liferea" TRUE "Sécuriser Login" TRUE "Désactiver Comptes en Ligne" TRUE "Optimisation Packages" TRUE "Désactiver Wacom Module" TRUE "Désactiver Sharing Module" TRUE "Désactiver Smartcard Module" TRUE "Désactiver Localisation" TRUE "Optimisation Gnome Terminal" TRUE "Optimisation File Chooser" TRUE "Désactiver Telephathy Logging" --separator="|")
+
+test=`echo $checkbox | grep "Désactiver Automontage"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.desktop.media-handling automount false
+	gsettings set org.gnome.desktop.media-handling automount-open false
+	gsettings set org.gnome.desktop.media-handling autorun-never true
+fi
+
+test=`echo $checkbox | grep "Sécuriser Accès Remote"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.Vino view-only true
+	gsettings set org.gnome.Vino vnc-password "$passremote"
+	gsettings set org.gnome.Vino disable-background true
+fi
+
+test=`echo $checkbox | grep "Diminuer Leak"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.desktop.privacy hide-identity true
+	gsettings set org.gnome.desktop.privacy recent-files-max-age 0
+	gsettings set org.gnome.desktop.privacy send-software-usage-stats false
+	gsettings set org.gnome.desktop.privacy report-technical-problems false
+	gsettings set org.gnome.desktop.privacy old-files-age 0
+	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files true
+	gsettings set org.gnome.desktop.privacy report-technical-problems false
+fi
+
+test=`echo $checkbox | grep "Sécuriser Archiveur"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.desktop.screensaver show-full-name-in-top-bar false
+	gsettings set org.gnome.desktop.screensaver status-message-enabled false
+	gsettings set org.gnome.desktop.screensaver user-switch-enabled false
+fi
+
+test=`echo $checkbox | grep "Sécuriser l'archiveur"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.FileRoller.Dialogs.New default-extension '.zip'
+	gsettings set org.gnome.FileRoller.Dialogs.New encrypt-header true
+	gsettings set org.gnome.FileRoller.General encrypt-header true
+fi
+
+test=`echo $checkbox | grep "Améliorer Gedit"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.gedit.preferences.editor auto-indent true
+	gsettings set org.gnome.gedit.preferences.editor auto-save-interval 5
+	gsettings set org.gnome.gedit.preferences.editor display-line-numbers true
+	gsettings set org.gnome.gedit.preferences.editor bracket-matching true
+	gsettings set org.gnome.gedit.preferences.editor display-line-numbers true
+fi
+
+test=`echo $checkbox | grep "Améliorer Gnome-ScreenShot"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.desktop.screensaver user-switch-enabled false
+fi
+
+test=`echo $checkbox | grep "Sécuriser Liferea"`
+if [ "$test" != "" ]; then
+	gsettings set net.sf.liferea browser 'firefox %s'
+	gsettings set net.sf.liferea disable-javascript true
+	gsettings set net.sf.liferea maxitemcount 250
+fi
+
+test=`echo $checkbox | grep "Sécuriser Login"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.login-screen disable-user-list true
+	gsettings set org.gnome.login-screen enable-fingerprint-authentication false
+	gsettings set org.gnome.login-screen enable-smartcard-authentication false
+fi
+
+test=`echo $checkbox | grep "Désactiver Comptes en Ligne"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.online-accounts whitelisted-providers ['']
+fi
+
+test=`echo $checkbox | grep "Optimisation Packages"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.packagekit enable-autoremove true
+fi
+
+test=`echo $checkbox | grep "Désactiver Wacom Module"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.settings-daemon.plugins.gsdwacom active false
+fi
+
+test=`echo $checkbox | grep "Désactiver Sharing Module"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.settings-daemon.plugins.sharing active false
+fi
+
+test=`echo $checkbox | grep "Désactiver Smartcard Module"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.settings-daemon.plugins.smartcard active false
+fi
+
+test=`echo $checkbox | grep "Désactiver Localisation"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.system.location max-accuracy-level 'country'
+	gsettings set org.gnome.system.location enabled false
+fi
+
+test=`echo $checkbox | grep "Optimisation Gnome Terminal"`
+if [ "$test" != "" ]; then
+	gsettings set org.gnome.Terminal.Legacy.Settings confirm-close false
+fi
+
+test=`echo $checkbox | grep "Optimisation File Chooser"`
+if [ "$test" != "" ]; then
+	gsettings set org.gtk.Settings.FileChooser startup-mode 'cwd'
+	gsettings set org.gtk.Settings.FileChooser sort-directories-first true
+fi
+
+test=`echo $checkbox | grep "Désactiver Telephathy Logging"`
+if [ "$test" != "" ]; then
+	gsettings set org.freedesktop.Telepathy.Logger enabled false
+fi
+
+zenity --info --width 250 --height 75 --title "Secure Dconf" --text "Fin de la configuration globale"
+exit 0

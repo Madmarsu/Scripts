@@ -1,0 +1,19 @@
+#!/bin/bash
+
+dependances=`dpkg -s libimage-exiftool-perl | grep "dpkg-query"`
+
+if [ "$dependances" != "" ]; then
+	apt-get -y install libimage-exiftool-perl
+fi
+
+dossier=`zenity --file-selection --directory --title "Dossier à images avec metadata à effacer :"`
+
+if [ "$dossier" == "" ]; then
+	echo "Aucun dossier n'est sélectionné !"
+	exit 1
+else
+	exiftool -v -all:all= -r -overwrite_original $dossier/*
+fi
+
+zenity --info --text "Fini"
+exit 0

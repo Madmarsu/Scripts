@@ -1,0 +1,21 @@
+#!/bin/bash
+
+icon=$(zenity --list --title "Secure Hostnamectl" --text "Icon Name :" --radiolist --column "Choix" --column "Options" TRUE "computer" FALSE "computer-laptop" FALSE "custom" --width 360 --height 270) > /dev/null 2>&1
+
+if [ "$icon" == "computer" ]; then
+	theicon="computer"
+elif [ "$icon" == "computer-laptop" ]; then
+	theicon="computer-laptop"
+elif [ "$icon" == "custom" ]; then
+	theicon=`zenity --entry --title "Secure Hostnamectl" --text "Custom Name :"`
+else
+	exit 1
+fi
+
+chassis=$(zenity --list --title "Secure Hostnamectl" --text "Chassis Name :" --radiolist --column "Choix" --column "Options" TRUE "desktop" FALSE "laptop" FALSE "server" FALSE "tablet" FALSE "handset" FALSE "watch" FALSE "embedded" FALSE "vm" FALSE "container" --width 360 --height 270) > /dev/null 2>&1
+
+hostnamectl set-icon-name "$theicon" 
+hostnamectl set-chassis "$chassis"
+
+zenity --info --title "Secure Hostnamectl" --text "Fait"
+exit 0

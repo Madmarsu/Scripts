@@ -1,0 +1,24 @@
+#!/bin/bash
+
+dependances=`pip show eyeD3`
+
+if [ "$dependances" == "" ]; then
+	pip install eyeD3
+fi
+
+if [ "$1" != "" ]; then
+	find "$1" -name "*.mp3" -exec eyeD3 -v --remove-all-comments --remove-all-lyrics --remove-all-images --remove-all "{}" \;
+else
+	dossier=`zenity --file-selection --directory --title "Dossier à mp3 avec données à effacer :"`
+
+	if [ "$dossier" == "" ]; then
+		echo "Aucun dossier sélectionné !"
+		exit 1
+	else
+		find "$dossier" -name "*.mp3" -exec eyeD3 -v --remove-all-comments --remove-all-lyrics --remove-all-images --remove-all "{}" \;
+	fi
+fi
+
+zenity --info --text "Accompli :)"
+
+exit 0

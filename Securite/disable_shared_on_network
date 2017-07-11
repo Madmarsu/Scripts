@@ -1,0 +1,5 @@
+#!/bin/bash
+
+apt-get purge nfs-kernel-server nfs-common portmap rpcbind autofs cups
+
+exit 0

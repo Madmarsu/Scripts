@@ -1,0 +1,29 @@
+#!/bin/bash
+
+media=`zenity --entry --title "Luks" --text "Entrer le disque Luks :"`
+
+while [ "1" = "1" ]
+do
+
+menu=$(zenity --width=360 --height=300 --list --title "Luks" --text "Selectionner votre choix" --column Choix "Dump" "Ajout" "Suppression" "Quitter")
+
+if [ "$menu" = "Dump" ]; then
+	cryptsetup luksDump $media | grep "ABLED"
+
+elif [ "$menu" = "Ajout" ]; then
+	cryptsetup luksAddKey $media
+
+elif [ "$menu" = "Suppression" ]; then
+	slot=`zenity --entry --title "Luks" --text "Entrer le slot à supprimer du disque Luks :"`
+	cryptsetup luksKillSlot $media $slot
+
+elif [ "$menu" = "Quitter" ]; then
+	break
+
+else
+	exit 0
+
+fi
+
+done
+

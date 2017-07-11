@@ -1,0 +1,12 @@
+#!/bin/bash
+
+check=`cat /etc/default/grub | grep "ifnames"`
+
+if [ "$check" == "" ]; then
+	echo "GRUB_CMDLINE_LINUX=\"net.ifnames=0\"" >> /etc/default/grub
+fi
+
+update-grub && update-grub2
+
+zenity --info --text "IFNames est désactivé"
+exit 0

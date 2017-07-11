@@ -1,0 +1,41 @@
+#!/bin/bash
+
+testenv=`echo "$XDG_DATA_DIRS" | grep -Eo 'xfce|kde|gnome'`
+
+if [ "$testenv" == "gnome" ]; then
+	 gsettings set org.gnome.desktop.media-handling automount false
+	 gsettings set org.gnome.desktop.media-handling automount-open false
+	 gsettings set org.gnome.desktop.media-handling autorun-never true
+fi
+
+if [ -f /etc/udev/rules.d/85-no-automount.rules ]; then
+	touch /etc/udev/rules.d/85-no-automount.rules 
+fi
+
+if [ -f /etc/udev/rules.d/10-no-automount.rules ]; then
+	touch /etc/udev/rules.d/10-no-automount.rules 
+fi
+
+test1=`cat /etc/udev/rules.d/85-no-automount.rules | grep "SUBSYSTEM==\"usb\", ENV{UDISKS_AUTO}=\"0\""`
+
+if [ "$test1" == "" ]; then
+	echo "SUBSYSTEM==\"usb\", ENV{UDISKS_AUTO}=\"0\"" >> /etc/udev/rules.d/85-no-automount.rules
+else
+	secu1="0"
+fi
+
+test2=`cat /etc/udev/rules.d/10-no-automount.rules | grep "ACTION=\"add|change\", subsystem==\"block\", ENV{UDISKS_AUTOMOUNT_HINT}=\"never\""`
+
+if [ "$test2" == "" ]; then
+	echo "ACTION=\"add|change\", subsystem==\"block\", ENV{UDISKS_AUTOMOUNT_HINT}=\"never\"" >> /etc/udev/rules.d/10-no-automount.rules
+else
+	secu2="0"
+fi
+
+if [ "$secu1" == "0" ] && [ "$secu2" == "0" ]; then
+	zenity --info --text "Cela avait déjà été fait"
+else
+	zenity --info --text "Fini"
+fi
+
+exit 0

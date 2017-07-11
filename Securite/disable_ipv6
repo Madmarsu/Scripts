@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo "127.0.0.1	localhost
+127.0.1.1	`hostname`" > /etc/hosts
+
+echo "# Désactiver IPv6
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.all.autoconf = 0
+net.ipv6.conf.wlan0.disable_ipv6 = 1
+net.ipv6.conf.wlan0.autoconf = 0
+net.ipv6.conf.eth0.disable_ipv6 = 1
+net.ipv6.conf.eth0.autoconf = 0
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.default.autoconf = 0
+net.ipv6.conf.lo.disable_ipv6 = 1
+net.ipv6.conf.lo.autoconf = 0" >> /etc/sysctl.conf && sysctl -p && sysctl -w
+
+check=`cat /etc/default/grub | grep "ipv6"`
+
+if [ "$check" == "" ]; then
+	echo "GRUB_CMDLINE_LINUX=\"ipv6.disable=1\"" >> /etc/default/grub
+	update-grub && update-grub2
+fi
+
+zenity --info --text "IPv6 est désactivé :)"
+exit 0

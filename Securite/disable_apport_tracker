@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sudo rm /var/lib/dpkg/info/apport.*
+sudo dpkg --remove --force-remove-reinstreq apport
+sudo dpkg --purge --force-remove-reinstreq apport
+
+exit 0

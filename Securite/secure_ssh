@@ -1,0 +1,80 @@
+#!/bin/bash
+
+test=`cat /etc/hosts.deny | grep "sshd : ALL"`
+
+if [ "$test" == "" ]; then
+	echo "sshd : ALL" >> /etc/hosts.deny
+fi
+
+echo " #
+###########################
+# Configuration Générique #
+###########################
+
+# Le Port :
+Port 22
+
+# Connection à travers Tor
+ProxyCommand connect -4 -S localhost:9050 $(tor-resolve %h localhost:9050) %p
+
+Protocol 2
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_dsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+# UsePrivilegeSeparation permet d’isoler via un processus fils la connexion d’un utilisateur avant de créer un nouveau processus avec les droits de cet utilisateur
+UsePrivilegeSeparation sandbox
+
+# Temps de vie et Taille de la clé serveur en version 1
+KeyRegenerationInterval 3600
+ServerKeyBits 1024
+
+# SyslogFacility et LogLevel permet d’activer les logs d’OpenSSH de façon suffisante
+SyslogFacility AUTH
+LogLevel INFO
+
+# LoginGraceTime indique le temps maximum pour s’identifier avant que la connexion soit coupée et StrictModes permet de vérifier les autorisations des utilisateurs
+LoginGraceTime 120
+StrictModes yes
+
+# PermitRootLogin interdit ici la connexion directe de l’utilisateur root
+PermitRootLogin no
+DenyUsers root
+
+RSAAuthentication yes
+PubkeyAuthentication yes
+
+IgnoreRhosts yes
+RhostsRSAAuthentication no
+HostbasedAuthentication no
+
+# PermitEmptyPasswords interdit la connexion avec un mot de passe nul
+PermitEmptyPasswords no
+
+ChallengeResponseAuthentication no
+
+# Si désactiver => mot de passe en clair !!
+PasswordAuthentication yes
+
+# X11Forwarding interdit l’affichage à distance d’un environnement graphique
+X11Forwarding no
+
+PrintMotd no
+# PrintLastLog affiche la date, l’heure et l’ip de la dernière connexion juste après la connexion 
+PrintLastLog yes
+
+TCPKeepAlive yes
+
+# Langue :
+AcceptEnv LANG LC_*
+
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+# UsePAM utilise PAM pour vérifier les utilisateurs
+UsePAM yes
+###########################" > /etc/ssh/sshd_config
+
+zenity --info --text "Fait"
+
+exit 0
