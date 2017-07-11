@@ -1,0 +1,27 @@
+#!/bin/bash
+
+rm /etc/bluetooth/main.conf
+touch /etc/bluetooth/main.conf
+
+cd /var/lib/bluetooth/*/
+rm config
+touch config
+
+nombre=$[($RANDOM % ($[12 - 4] + 1)) + 4]
+
+M="0123456789azertyuiopqsdfghjklmwxcvbnAZERTYUIOPMLKJHGFDSQWXCVBN"
+
+while [ "${n:=1}" -le "$nombre" ]
+do
+random1="$random1${M:$(($RANDOM%${#M})):1}"
+let n+=1
+done 
+
+echo "Name = $random1" > /etc/bluetooth/main.conf
+echo "name $random1" > config
+
+echo "Nom d'Identification actuel : $random1"
+
+service bluetooth restart
+
+exit 0

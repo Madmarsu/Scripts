@@ -1,0 +1,11 @@
+#!/bin/bash
+
+tracker-control -r &> /tmp/tracker-purge
+
+echo ""
+bash changemac
+bash changehostname
+#bash changebluetooth
+
+exit 0
+

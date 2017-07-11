@@ -1,0 +1,66 @@
+#!/bin/bash
+
+rouge="\\033[1;31m"
+fin="\\e[m"
+
+if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
+	echo "
+Changement d'Hostname :
+changehostname <typo> <longueur>
+
+Liste de typographies : 
+_ eu : Europe Occidentale 
+_ ru : Russe
+_ ar : Arménien
+_ ha : Hangul
+_ ge : Geez
+_ cn : Chinois
+_ jp : Japonais
+_ gr : Grec
+
+Longueur conseillée entre 3 et 20 caractères :)
+
+Par défaut, c'est de l'alphabet et le nombre randomisé entre 4 et 12 !
+"
+	exit 0
+fi	
+
+nomhost=`cat /etc/hostname`
+
+if [ "$1" == "eu" ]; then 
+	M="0123456789azertyuiopqsdfghjklmwxcvbnAZERTYUIOPMLKJHGFDSQWXCVBN"
+elif [ "$1" == "ru" ]; then 
+	M="0123456789абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+elif [ "$1" == "ar" ]; then 
+	M="0123456789աբգդեզէըթժիլխծկհձղճմյնշոչպջռսվտրցւփքօֆուեւ"
+elif [ "$1" == "ha" ]; then 
+	M="0123456789ㄱㄲㄳㄴㄵㄶㄷㄸㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅃㅄㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟ"
+elif [ "$1" == "ge" ]; then 
+	M="0123456789ሀለሐመሠረሰቀበተኀነhḥmsrsḳbtḫnአከወዐዘየደጠጸፀፈkwzygṭṣḍf"
+elif [ "$1" == "cn" ]; then 
+	M="0123456789は金曜日が原因で兄メンの首都で高い壁にているタイトなセキュリ強化材に囲まれたミサイカイダと関連する早める因で政治的混乱と軍事使館の従業員の数を減ら"
+elif [ "$1" == "jp" ]; then 
+	M="0123456789れづれなるまゝに日暮らし硯にむかひて心にうりゆくよな事をこはかとなく書きつくればあやうこそものぐるほけれ"
+elif [ "$1" == "gr" ]; then 
+	M="0123456789αβγδεζηθικλµνξοπρστυϕχψω"
+else
+	M="0123456789azertyuiopqsdfghjklmwxcvbnAZERTYUIOPMLKJHGFDSQWXCVBN"
+fi
+
+if [ "$2" != "" ]; then
+	nombre=$2
+else
+	nombre=$[($RANDOM % ($[7 - 4] + 1)) + 4]
+fi
+
+while [ "${n:=1}" -le "$nombre" ]
+  do pass="$pass${M:$(($RANDOM%${#M})):1}"
+let n+=1
+done
+echo $pass > /etc/hostname
+sed -i -e "s/$nomhost/$pass/g" /etc/hosts
+hostnamectl --pretty set-hostname "$pass" # --static --transient 
+echo "Hostname actuel : $nomhost"
+echo -e "$rouge" "Hostname au redémarrage : $pass" "$fin"
+echo ""
+exit 0

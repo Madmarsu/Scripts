@@ -1,0 +1,49 @@
+#!/bin/bash
+
+rouge="\\033[1;31m"
+fin="\\e[m"
+
+if [ "$*" != "" ]; then
+	ifconfig $* down
+	macchanger --random $*
+	macchanger --random $*
+	ifconfig $* up
+	echo ""
+	echo -e "$rouge" "$* :" "$fin"
+	macchanger -s $*
+	echo -e "$rouge" "===========================" "$fin"
+	echo ""
+else
+	for i in `seq 0 9`
+	do
+	existence=`ifconfig | grep "eth${i}"`
+	if [ "$existence" != "" ]; then
+		ifconfig eth${i} down
+		macchanger -r eth${i}
+		macchanger -r eth${i}
+		ifconfig eth${i} up
+		echo ""
+		echo -e "$rouge" "Eth${i} :" "$fin"
+		macchanger -s eth${i}
+		echo -e "$rouge" "===========================" "$fin"
+		echo ""
+	fi
+	done
+	
+	for i in `seq 0 9`
+	do
+	existence=`ifconfig | grep "wlan${i}"`
+	if [ "$existence" != "" ]; then
+		ifconfig wlan${i} down
+		macchanger -r wlan${i}
+		macchanger -r wlan${i}
+		ifconfig wlan${i} up
+		echo ""
+		echo -e "$rouge" "Wlan${i} :" "$fin"
+		macchanger -s wlan${i}
+		echo -e "$rouge" "===========================" "$fin"
+		echo ""
+	fi
+	done
+
+fi

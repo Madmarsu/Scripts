@@ -1,0 +1,14 @@
+#!/bin/bash
+
+actuel=`cat .bashrc | grep PS1=`
+
+if [ "$1" != "" ]; then
+	new="PS1='\e[1;31m\[$1\]\e[m:\w\\$ '"
+	sed -i -e "/$actuel/$new/" $HOME/.bashrc
+else
+	pseudo=`zenity --entry --text "Pseudo désiré :"`
+	new="PS1='\e[1;31m\[$pseudo\]\e[m:\w\\$ '"
+	sed -i -e "/$actuel/$new/" $HOME/.bashrc
+fi
+
+
