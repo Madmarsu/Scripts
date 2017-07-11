@@ -5,7 +5,9 @@ Ceci est un repo regroupant une partie de mes scripts destinés à bien des usag
 ## Utilisation
 
 Pour les utiliser, suffit de cloner le repo ou de télécharger sous forme de zip. 
+'''
 git clone https://github.com/TheOletros/Scripts
+'''
 
 ### Prérequis
 
@@ -18,8 +20,7 @@ Idéal pour bien démarrer un système d'exploitation, les scripts Sécurité so
 
 ## Auteur
 
-* Oletros venant d'EfreiSec.fr 
-Etudiant de l'école d'ingénieur EFREI.
+* Oletros venant d'EfreiSec.fr : Etudiant de l'école d'ingénieur EFREI.
 
 ## Licence
 
