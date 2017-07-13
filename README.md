@@ -5,7 +5,7 @@ Ceci est un repo regroupant une partie de mes scripts destinés à bien des usag
 ## Utilisation
 
 Pour les utiliser, suffit de cloner le repo ou de télécharger sous forme de zip. 
-~> git clone https://github.com/TheOletros/Scripts
+* git clone https://github.com/TheOletros/Scripts
 
 
 ### Prérequis
@@ -23,4 +23,4 @@ Idéal pour bien démarrer un système d'exploitation, les scripts Sécurité so
 
 ## Licence
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Ce projet est sous licence Creative Commons Non Commercial - [LICENSE.md](LICENSE.md)
