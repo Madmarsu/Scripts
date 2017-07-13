@@ -1,0 +1,11 @@
+#!/bin/bash
+
+hostname=`cat /etc/hostname`
+
+if [ "$hostname" == "debian" ]; then
+	echo -e "\\033[1;31m""Hostname: $hostname""\\e[m"
+else
+	echo -e "\\033[1;32m""Hostname: $hostname""\\e[m"
+fi
+
+exit 0

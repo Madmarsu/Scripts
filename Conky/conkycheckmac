@@ -1,0 +1,14 @@
+#!/bin/bash
+
+adressemac="wlan0"
+
+macperma=`macchanger -s $adressemac | grep "Permanent MAC:" | cut -c16-32`
+macactu=`macchanger -s $adressemac | grep "Current MAC:" | cut -c16-32`
+
+if [ "$macperma" == "$macactu" ]; then
+	echo -e "\\033[1;31m""Adresse MAC Changée: NON""\\e[m"
+else
+	echo -e "\\033[1;32m""Adresse MAC Changée: OUI""\\e[m"
+fi
+
+exit 0

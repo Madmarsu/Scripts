@@ -1,0 +1,7 @@
+#!/bin/bash
+
+temperature=`hddtemp /dev/sda | awk '{ print $4}'`
+
+echo -e "\\033[1;34m""Température HDD: $temperature""\\e[m"
+
+exit 0

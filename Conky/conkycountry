@@ -1,0 +1,12 @@
+#!/bin/bash
+
+theip=`curl ifconfig.me/ip`
+country=`curl "http://ipinfo.io/$theip/country"`
+
+if [ "$country" == "FR" ]; then
+	echo -e "\\033[1;31m""Pays: $country""\\e[m"
+else
+	echo -e "\\033[1;32m""Pays: $country""\\e[m"
+fi
+
+exit 0

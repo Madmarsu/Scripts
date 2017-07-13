@@ -1,0 +1,11 @@
+#!/bin/bash
+
+test=`service tor status | grep "inactive"`
+
+if [ "$test" == "" ] ; then
+	echo -e "\\033[1;32m""Tor Activité: OUI""\\e[m"
+else
+	echo -e "\\033[1;31m""Tor Activité: NON""\\e[m"
+fi 
+
+exit 0

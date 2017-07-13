@@ -1,0 +1,12 @@
+#!/bin/bash
+
+pctg=`acpi --battery | cut -d' ' -f4 | cut -d ',' -f1`
+comparaison=`acpi --battery | cut -d' ' -f4 | cut -d '%' -f1`
+
+if [ "$comparaison" >= "15" ]; then
+	echo -e "\\033[1;32m""Batterie Restante: $pctg""\\e[m"
+else
+	echo -e "\\033[1;31m""Batterie Restante: $pctg""\\e[m"
+fi
+
+exit 0

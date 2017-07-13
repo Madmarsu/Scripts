@@ -1,0 +1,11 @@
+#!/bin/bash
+
+un=`lsb_release -d | cut -f 2 | cut -c1-6`
+deux=`lsb_release -d | cut -f 2 | cut -c18-20`
+trois=`echo "$XDG_DATA_DIRS" | grep -Eo 'xfce|kde|gnome'`
+
+final="$un $deux $trois"
+
+echo -e "\\033[1;34m""$final""\\e[m"
+
+exit 0

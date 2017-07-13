@@ -1,0 +1,7 @@
+#!/bin/bash
+
+temp=`acpi --thermal | cut -d' ' -f4`
+
+echo -e "\\033[1;34m""Température HDD: $temp""\\e[m"
+
+exit 0

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+test=`acpi --ac-adapter | cut -d' ' -f3 | grep off-line`
+
+if [ "$test" != "" ]; then
+	echo -e "\\033[1;31m""Chargeur: OFF""\\e[m"
+else
+	echo -e "\\033[1;32m""Chargeur: ON""\\e[m"
+fi
+
+exit 0

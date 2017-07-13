@@ -1,0 +1,12 @@
+#!/bin/bash
+
+test=`chkrootkit | grep "INFECTED"`
+
+if [ "$test" == "" ] ; then
+	echo -e "\\033[1;32m""Infection: NON""\\e[m"
+else
+	echo -e "\\033[1;31m""Infection: OUI""\\e[m"
+fi 
+
+exit 0
+

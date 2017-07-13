@@ -1,0 +1,7 @@
+#!/bin/bash
+
+theip=`curl ifconfig.me/ip`
+
+echo -e "\\033[1;34m""IP Publique: $theip""\\e[m"
+
+exit 0
