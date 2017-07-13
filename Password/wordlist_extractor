@@ -1,0 +1,9 @@
+#!/bin/bash
+
+fichier=`zenity --file-selection --title "Fichier contenant des combos : "`
+liste=`zenity --file-selection --save --title "Fichier où stocker les combos : "`
+
+grep -o '[[:alnum:]+\.\_\-]*@[[:alnum:]+\.\_\-]*:[[:alnum:]+\.\_\-]*' "$fichier" | sort | uniq -i > "$liste"
+
+zenity --info --title "Combo Extractor" --text "Les combo ont été extraits"
+exit 0

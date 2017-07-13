@@ -1,0 +1,18 @@
+#!/bin/bash
+
+fichier=`zenity --file-selection --title "Fichier à nettoyer :"`
+
+dossier=`readlink -f $(dirname $fichier)`
+cd $dossier 
+
+mv $fichier "$fichier-ancien"
+touch "$fichier-clean"
+
+cat "$fichier-ancien" | xargs -n1 | sort -u > "$fichier-clean"
+rm "$fichier-ancien"
+
+mv "$fichier-clean" "$fichier"
+
+zenity --info --text "Duplicat supprimé"
+
+exit 0

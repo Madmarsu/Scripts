@@ -1,0 +1,11 @@
+#!/bin/bash
+
+fichier=`zenity --file-selection --title "Fichier d'où traiter :"`
+save=`zenity --file-selection --save --title "Fichier où sauvegarder :"`
+
+while IFS='' read -r line || [[ -n "$line" ]]; do
+    echo "`echo $line | cut -d':' -f2`:`echo $line | cut -d':' -f1`"  >> $save
+done < "$fichier"
+
+zenity --info --title "Invert Wordlist" --text "Fait"
+exit 0
