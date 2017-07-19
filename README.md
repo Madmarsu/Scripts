@@ -19,7 +19,7 @@ Idéal pour bien démarrer un système d'exploitation, les scripts Sécurité so
 
 ## Auteur
 
-* Oletros venant d'EfreiSec.fr : Etudiant de l'école d'ingénieur EFREI.
+* Oletros [https://esprit-hack.fr/author/Oletros].
 
 ## Licence
 
