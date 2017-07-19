@@ -19,7 +19,7 @@ Idéal pour bien démarrer un système d'exploitation, les scripts Sécurité so
 
 ## Auteur
 
-* [Oletros] (https://esprit-hack.fr/author/Oletros).
+* Oletros - https://esprit-hack.fr/author/Oletros.
 
 ## Licence
 
